@@ -19,8 +19,7 @@ namespace SuperSocket.ProtoBase
         /// <returns>the decoded string</returns>
         public static string GetString(this Encoding encoding, IList<ArraySegment<byte>> data)
         {
-            //var total = data.Sum(x => x.Count);
-            var total = LINQ.Sum(data, x => x.Count);
+            var total = data.Sum(x => x.Count);
 
             var output = new char[encoding.GetMaxCharCount(total)];
 
