@@ -17,17 +17,19 @@ public class ClientReceiveFilter : FixedHeaderReceiveFilter<BinaryRequestInfo>
 
     public override BinaryRequestInfo ResolvePackage(IBufferStream bufferStream)
     {
-        //byte[] length1 = new byte[2];
-        //bufferStream.Read(length1, 0, 2);
-        //int bodyLength = GetBodyLength(length1);
 
-        //byte[] data1 = new byte[bodyLength];
-        //bufferStream.Read(data1, 0, bodyLength);
+        byte[] header = new byte[HeaderSize];
+        bufferStream.Read(header, 0, HeaderSize);
+
+        int bodyLength = Size - HeaderSize;
+
+        byte[] data = new byte[bodyLength];
+        bufferStream.Read(data, 0, bodyLength);
 
         //BinaryRequestInfo requestInfo = new BinaryRequestInfo(Encoding.UTF8.GetString(data1), data1);
 
         //return requestInfo;
-        return new BinaryRequestInfo();
+        return new BinaryRequestInfo(data);
     }
 
     protected override int GetBodyLengthFromHeader(IBufferStream bufferStream, int length)
